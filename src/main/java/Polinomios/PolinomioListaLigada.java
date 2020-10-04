@@ -228,6 +228,45 @@ public class PolinomioListaLigada {
     }
     
     
+    public void mostrarTodas (){
+        StringBuilder polinomio = new StringBuilder();
+        NodoPolinomio recorrido = new NodoPolinomio();
+                
+        //for(int i=0; i<cabezas.length;i++){
+        int i=0  ;  
+        while(i<cabezas.length) {   
+            recorrido =cabezas[i].getLiga();
+            if (esVacio(i+1)){
+            polinomio.append("En la posicion "+(i+1)+" no hay polinomio registrado");
+                System.out.println(polinomio);
+                polinomio.setLength(0);
+            
+            }else{        
+                boolean primero=true;
+                while (!finRecorrido(recorrido)) { //finRecorrido
+                Termino termino = recorrido.getTermino();
+                double coef = termino.getC();
+                int exp = termino.getE();
+                // Para adicionar el simbolo del coeficiente para numeros positivos, excluyendo el simbolo + del primer termino si es positivo.
+                if (coef >= 0 && !primero) {
+                    polinomio.append("+");
+                }
+                if(exp!=0){
+                    polinomio.append((int)coef).append("X^").append(exp);
+                }else{
+                    polinomio.append((int)coef);
+                }
+                recorrido = recorrido.getLiga();
+                primero=false;
+                }
+                System.out.print("Polinomio en la posicion "+(i+1)+" > ");System.out.println(polinomio);
+            polinomio.setLength(0);
+            }
+            i++;
+
+        }   
+    }
+        
     private boolean finRecorrido(NodoPolinomio p) {
         return p == null;
     }

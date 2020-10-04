@@ -14,6 +14,7 @@ public class ProgramaMain {
     public static void main(String[] args) {
         
         //cuantos polinomios desea ingresar
+        String poli;
         int num=3;
         PolinomioListaLigada polinomios = new PolinomioListaLigada(num);
                 
@@ -22,8 +23,12 @@ public class ProgramaMain {
         System.out.println("Polinomio ingresado> "+h);
         polinomios.IngresarPolinomio(h,1);
         
+        String h1 = "5X^3-25X^2-65X^1+35";
+        System.out.println("Polinomio ingresado> "+h1);
+        polinomios.IngresarPolinomio(h1,2);
         
-        String mostrar = polinomios.mostrarPolinomio(2);
+        
+       /* String mostrar = polinomios.mostrarPolinomio(2);
         System.out.println("Polinomio al mostrar> "+mostrar);
         
         double resultado = polinomios.evaluarPolinomio(1, 3);
@@ -31,6 +36,12 @@ public class ProgramaMain {
         
         String derivada = polinomios.derivarPolinomio(1);
         System.out.println("Derivada del polinomio "+derivada);
+        */
+        System.out.println("COnsultar todos polinomios");
+        polinomios.mostrarTodas();
+
+
+        
         
         
     }
