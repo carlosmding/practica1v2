@@ -36,6 +36,8 @@ public class PolinomioListaLigada {
     /**
      * Constructor para un polinomio sin terminos
      */
+    
+    
     PolinomioListaLigada(int n) {
         cabezas = new NodoPolinomio[n];
         
@@ -52,39 +54,13 @@ public class PolinomioListaLigada {
     public NodoPolinomio getCabeza(int n) {
         return cabezas[n];
     }
-
-    //@Override
-/*    public String toString() {
-        StringBuilder polinomio = new StringBuilder();
-        NodoPolinomio p = cabeza.getLiga();
-        while (!finRecorrido(p)) {
-            Termino ti = p.getTermino();
-            double j = ti.getC();
-            int i = ti.getE();
-            // Para adicionar el simbolo del coeficiente para numeros positivos, excluyendo el simbolo + del primer termino si es positivo.
-            if (j >= 0) {
-                polinomio.append("+");
-            }
-            polinomio.append(j).append("X^").append(i).append(" ");
-            p = p.getLiga();
-        }
-        return polinomio.toString();
-    }
-
-    public int getGrado() throws Exception {
-        NodoPolinomio primero = cabeza.getLiga();
-        if (primero == null) {
-            return 0;
-        }
-        return primero.getTermino().getE();
-    }
-*/
-    
+   
     public void IngresarPolinomio (String hilera, int n){
         
         NodoPolinomio recorrido = new NodoPolinomio();
         recorrido = cabezas[n-1];
         NodoPolinomio ultimo = recorrido;
+        boolean primerc = true;
         
         StringBuilder numero = new StringBuilder();
         
@@ -98,14 +74,12 @@ public class PolinomioListaLigada {
                 case 'X':
                 case 'x':
                     Termino termino = new Termino();
-                    double coeficiente = Double.parseDouble(numero.toString());
+                    String numeroD = numero.toString();
+                    double coeficiente = Double.parseDouble(numeroD);
                     termino.setC(coeficiente);
                     recorrido = new NodoPolinomio (termino);
                     ultimo.setLiga(recorrido);
                     ultimo =recorrido;
-                    
-                    
-                    //System.out.println("coeficiente "+recorrido.getTermino().getC());
                     break;
                 
                 case '^':
@@ -124,9 +98,9 @@ public class PolinomioListaLigada {
                     numero.setLength(0);
                     String negativo = "-";
                     numero.append(negativo);
-                    break;       
-            }
-            
+                    break;                        
+                    
+            }   
         }
         Termino terminofinal = new Termino();
         double coeficiente = Double.parseDouble(numero.toString());
@@ -227,51 +201,65 @@ public class PolinomioListaLigada {
         return polinomio.toString();
     }
     
-    
-    public void mostrarTodas (){
-        StringBuilder polinomio = new StringBuilder();
-        NodoPolinomio recorrido = new NodoPolinomio();
-                
-        //for(int i=0; i<cabezas.length;i++){
-        int i=0  ;  
-        while(i<cabezas.length) {   
-            recorrido =cabezas[i].getLiga();
-            if (esVacio(i+1)){
-            polinomio.append("En la posicion "+(i+1)+" no hay polinomio registrado");
-                System.out.println(polinomio);
-                polinomio.setLength(0);
+    public void multipolicarPolinomios (int n, int m, int ubicacion){
+        NodoPolinomio recorridoA, recorridoB, C, ultimo = new NodoPolinomio();
+        recorridoA = cabezas[n-1].getLiga();
+        recorridoB = cabezas[m-1].getLiga();
+        C = cabezas[ubicacion-1];
+        ultimo = C;
+        
+        while(!finRecorrido(recorridoA)){
+            Termino t=recorridoA.getTermino();
+            double coef = t.getC();
+            int exp = t.getE();
             
-            }else{        
-                boolean primero=true;
-                while (!finRecorrido(recorrido)) { //finRecorrido
-                Termino termino = recorrido.getTermino();
-                double coef = termino.getC();
-                int exp = termino.getE();
-                // Para adicionar el simbolo del coeficiente para numeros positivos, excluyendo el simbolo + del primer termino si es positivo.
-                if (coef >= 0 && !primero) {
-                    polinomio.append("+");
-                }
-                if(exp!=0){
-                    polinomio.append((int)coef).append("X^").append(exp);
-                }else{
-                    polinomio.append((int)coef);
-                }
-                recorrido = recorrido.getLiga();
-                primero=false;
-                }
-                System.out.print("Polinomio en la posicion "+(i+1)+" > ");System.out.println(polinomio);
-            polinomio.setLength(0);
-            }
-            i++;
+            while(!finRecorrido(recorridoB)){
+                Termino tB=recorridoB.getTermino();
+                double coefB = tB.getC();
+                int expB = tB.getE();
 
-        }   
+                double coefC = (coef*coefB);
+                int expC = (exp+expB);
+                Termino tC = new Termino(expC, coefC);
+                NodoPolinomio nuevo = new NodoPolinomio(tC);
+                
+                ultimo.setLiga(nuevo);
+                ultimo=nuevo;
+                
+                recorridoB=recorridoB.getLiga();
+            }
+            recorridoB = cabezas[m-1].getLiga();
+            recorridoA=recorridoA.getLiga();
+        }
     }
         
+    public int mayorExponente(int n){
+        NodoPolinomio recorrido, ultimo;
+        int expmayor=0;
+        recorrido = cabezas[n-1].getLiga();
+        ultimo = recorrido;
+        
+        while(!finRecorrido(recorrido)){
+            if(recorrido.getTermino().getE()>expmayor){
+                expmayor=recorrido.getTermino().getE();
+            }
+            recorrido = recorrido.getLiga();
+        }
+        return expmayor;
+    }    
+       
     private boolean finRecorrido(NodoPolinomio p) {
         return p == null;
     }
 
+    public int getContarPolinomios() {
+        return contarPolinomios;
+    }
 
-
-
+    public void setContarPolinomios(int contarPolinomios) {
+        this.contarPolinomios = contarPolinomios;
+    }
+    
+    
 }
+
