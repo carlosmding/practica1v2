@@ -30,20 +30,18 @@ import java.lang.Math;
  */
 public class PolinomioListaLigada {
 
-    private NodoPolinomio [] cabezas;
-    private int contarPolinomios;
+    private NodoPolinomio cabezas, ult, x;
+    private int contarPolinomios=1;
+    
 
     /**
      * Constructor para un polinomio sin terminos
      */
     
     
-    PolinomioListaLigada(int n) {
-        cabezas = new NodoPolinomio[n];
-        
-        for (int i = 0; i < cabezas.length; i++) {
-            cabezas[i]= new NodoPolinomio();
-        }
+    public PolinomioListaLigada() {
+        cabezas = new NodoPolinomio();
+        ult = x = cabezas;
     }
 
     /**
@@ -51,22 +49,26 @@ public class PolinomioListaLigada {
      *
      * @return
      */
-    public NodoPolinomio getCabeza(int n) {
-        return cabezas[n];
+    public NodoPolinomio getCabeza() {
+        return cabezas;
     }
    
-    public void IngresarPolinomio (String hilera, int n){
+    public NodoPolinomio IngresarPolinomio (String hilera){
+        // ubicarlo segun el contador      
         
         NodoPolinomio recorrido = new NodoPolinomio();
-        recorrido = cabezas[n-1];
+        NodoPolinomio cabeza = new NodoPolinomio();
+        cabeza = recorrido;
+        //recorrido=Nodocabezas;
+       
         NodoPolinomio ultimo = recorrido;
         boolean primerc = true;
         
         StringBuilder numero = new StringBuilder();
-        
         for (int i = 0; i < hilera.length(); i++) {
             char c = hilera.charAt(i);
- 
+        
+        //25X^2-65X^1+35;
             if(c >= '0' &&  c<= '9' ){
                 numero.append(c);    
             }
@@ -111,15 +113,17 @@ public class PolinomioListaLigada {
         ultimo =recorrido;
         
         contarPolinomios++;
+        return cabeza;
+        
     }
 
-    public String mostrarPolinomio(int n) {
+    public String mostrarPolinomio(NodoPolinomio nodo) {
         StringBuilder polinomio = new StringBuilder();
-        if (esVacio(n)){
+        if (nodo == null){
             polinomio.append("No existe polinomio en esa posicion para mostrar");
             return polinomio.toString();
         }else{
-            NodoPolinomio p = cabezas[n-1].getLiga();
+            NodoPolinomio p = nodo;
                 
             boolean primero=true;
             while (!finRecorrido(p)) { //finRecorrido
