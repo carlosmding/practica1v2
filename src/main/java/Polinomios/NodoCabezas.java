@@ -12,13 +12,15 @@ package Polinomios;
 public class NodoCabezas {
     private NodoPolinomio nodo;
     private NodoCabezas liga;
+    private int Num;
 
     public NodoCabezas() {
     }
 
-    public NodoCabezas(NodoPolinomio nodo, NodoCabezas liga) {
+    public NodoCabezas(NodoPolinomio nodo, NodoCabezas liga, int Num) {
         this.nodo = nodo;
         this.liga = liga;
+        this.Num = Num;
     }
 
     public NodoPolinomio getNodo() {
@@ -37,6 +39,13 @@ public class NodoCabezas {
         this.liga = liga;
     }
 
+    public int getNum() {
+        return Num;
+    }
+
+    public void setNum(int Num) {
+        this.Num = Num;
+    }
     
 
 
